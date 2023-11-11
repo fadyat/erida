@@ -4,7 +4,7 @@ import "fmt"
 
 type Config struct {
 	RelayHost  string `env:"SERVER_HOST" env-default:"localhost"`
-	RelayPort  string `env:"SERVER_PORT" env-default:"1025"`
+	RelayPort  string `env:"SERVER_PORT" env-default:"25"`
 	Host       string `env:"SMTP_HOST" env-default:"smtp.gmail.com"`
 	Port       string `env:"SMTP_PORT" env-default:"587"`
 	User       string `env:"SMTP_USER"`

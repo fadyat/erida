@@ -3,8 +3,13 @@ ifneq (,$(wildcard ./.env))
 	export
 endif
 
+include helm/Makefile
+
 run:
-	@go run ./cmd/main.go
+	@go run ./cmd/erida/main.go
+
+stress:
+	@go run ./cmd/stress/main.go
 
 integration:
 	@go test -v ./... -tags=integration

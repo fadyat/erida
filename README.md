@@ -24,7 +24,7 @@ Configuring Erida is a breeze. All you need to do is set the following environme
 - `SMTP_HOST`: SMTP server host
 - `SMTP_PORT`: SMTP server port
 - `SMTP_USER`: SMTP server username
-- `SMTP_PASSWORD`: SMTP server password
+- `SMTP_PASS`: SMTP server password
 - `SLACK_TOKEN`: Slack bot token
 - `SMTP_TLS` (Optional, default: true): Enable or disable Start TLS usage
 
