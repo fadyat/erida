@@ -29,10 +29,10 @@ func TestServer(t *testing.T) {
 
 	require.NoError(t, mockedServer.Start())
 	server := NewServer(&Config{
-		RelayHost: relayHost,
-		RelayPort: strconv.Itoa(relayPort),
-		Host:      host,
-		Port:      strconv.Itoa(port),
+		ServerHost: relayHost,
+		ServerPort: strconv.Itoa(relayPort),
+		Host:       host,
+		Port:       strconv.Itoa(port),
 
 		// Mocked server doesn't support TLS and AUTH, disable them.
 		// https://github.com/mocktools/go-smtp-mock/issues/76
@@ -76,7 +76,7 @@ World!
 
 	assert.Equal(
 		t,
-		strings.Replace(string(body), "\n", "\r\n", -1),
+		strings.ReplaceAll(string(body), "\n", "\r\n"),
 		msg.MsgRequest(),
 	)
 	assert.Equal(t, "250 Received", msg.MsgResponse())

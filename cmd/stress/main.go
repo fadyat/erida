@@ -31,7 +31,7 @@ func parseRecipients(recipients string) []string {
 		}
 	}
 
-	return parsed
+	return rcpt
 }
 
 // following code is a stress test for erida
@@ -42,6 +42,7 @@ func main() {
 	var (
 		wg            sync.WaitGroup
 		reqNumber     = 0
+		batch         = 10
 		interval, err = time.ParseDuration(secondsInterval)
 	)
 	if err != nil {
@@ -54,7 +55,8 @@ func main() {
 		for {
 			select {
 			case <-time.After(interval * time.Second):
-				issueRequestInParallel(&wg, reqNumber)
+				issueRequestInParallel(&wg, reqNumber, batch)
+				reqNumber += batch
 			case <-ctx.Done():
 				return
 			}
@@ -69,10 +71,8 @@ func main() {
 	wg.Wait()
 }
 
-func issueRequestInParallel(wg *sync.WaitGroup, reqNumber int) {
-	var requests = 10
-
-	for i := 0; i < requests; i++ {
+func issueRequestInParallel(wg *sync.WaitGroup, reqNumber, batch int) {
+	for i := 0; i < batch; i++ {
 		wg.Add(1)
 
 		go func(rn int) {
@@ -80,8 +80,6 @@ func issueRequestInParallel(wg *sync.WaitGroup, reqNumber int) {
 			issueRequest(rn)
 		}(reqNumber + i)
 	}
-
-	reqNumber += requests
 }
 
 func issueRequest(reqNumber int) {

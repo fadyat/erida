@@ -76,7 +76,7 @@ func (c *slackClient) sendMessageConcurrent(
 		wg.Wait()
 	}()
 
-	var errors []error
+	var errors = make([]error, 0)
 	for err := range errorsChan {
 		errors = append(errors, err)
 	}

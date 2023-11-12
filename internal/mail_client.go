@@ -59,7 +59,7 @@ func (c *mailClient) startTLS() error {
 	}
 
 	if err := c.StartTLS(&tls.Config{
-		InsecureSkipVerify: c.cfg.Insecure(),
+		InsecureSkipVerify: c.cfg.Insecure(), // #nosec G402
 		ServerName:         c.cfg.Host,
 	}); err != nil {
 		return fmt.Errorf("failed to start tls: %w", err)

@@ -5,6 +5,11 @@ endif
 
 include helm/Makefile
 
+lint:
+	@golangci-lint run --issues-exit-code 1 \
+		--print-issued-lines=true \
+		  --config .golangci.yml ./...
+
 run:
 	@go run ./cmd/erida/main.go
 

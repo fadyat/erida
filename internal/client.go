@@ -48,7 +48,7 @@ func takeUsernames(recipients []string, recipientType string) []string {
 	return usernames
 }
 
-func convertToRecipientWay(username string, recipientType string) string {
+func convertToRecipientWay(username, recipientType string) string {
 	if _, ok := operators[recipientType]; !ok {
 		return username
 	}

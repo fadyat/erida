@@ -97,7 +97,7 @@ func NewServer(
 	s.ReadTimeout = 10 * time.Second
 	s.WriteTimeout = 10 * time.Second
 	s.Addr = cfg.RelayAddr()
-	s.Domain = cfg.RelayHost
+	s.Domain = cfg.ServerHost
 	s.AllowInsecureAuth = cfg.Insecure()
 	return s
 }
