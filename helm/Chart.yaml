@@ -1,0 +1,8 @@
+apiVersion: v2
+name: erida
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+description: |
+  Erida is a straightforward SMTP relay server designed for sending internal
+  cluster emails to an authenticated SMTP server with seamless Slack integration.

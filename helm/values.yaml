@@ -1,0 +1,43 @@
+erida:
+  restartPolicy: Always
+  image:
+    repository: ghcr.io/fadyat/erida
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 1025
+  env:
+    SERVER_HOST: 0.0.0.0
+    SERVER_PORT: 1025
+    SMTP_PORT: 587
+    SMTP_HOST: smtp.gmail.com
+    SMTP_USER: ${{ secrets.SMTP_USER }}
+    SMTP_PASS: ${{ secrets.SMTP_PASS }}
+    SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+
+stress:
+  enabled: false
+  restartPolicy: Always
+  env:
+    ERIDA_ADDR: erida-service.default.svc.cluster.local:1025
+    STRESS_TO: "personal.fadyat@slack,channel.empty@slack"
+    STRESS_FROM: erida@stress
+    STRESS_SECONDS_INTERVAL: 10
+    STRESS_BODY_PATTERN: |
+      Subject: Stress test
+      Content-Type: text/plain; charset=UTF-8
+
+      Hello, this a %d message from stress test!
+
+      Best regards, Erida
+
+  # used local image for testing
+  # built with `ko build --local ./cmd/stress/...`
+  # and `eval $(minikube docker-env)` before
+  #
+  # https://minikube.sigs.k8s.io/docs/handbook/pushing/
+  image:
+    repository: ko.local/stress-6d699859fd137daabb3e74ecb19527d8
+    tag: latest
+    pullPolicy: Never

@@ -1,0 +1,28 @@
+{{- if .Values.stress.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-stress-deployment
+  labels:
+    app: {{ .Chart.Name }}-stress-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-stress-pod
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-stress-pod
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-stress-container
+          image: {{ .Values.stress.image.repository }}:{{ .Values.stress.image.tag }}
+          imagePullPolicy: {{ .Values.stress.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.stress.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+      restartPolicy: {{ .Values.stress.restartPolicy }}
+{{- end }}

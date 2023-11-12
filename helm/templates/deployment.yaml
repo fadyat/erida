@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-deployment
+  labels:
+    app: {{ .Chart.Name }}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-pod
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-pod
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-container
+          image: {{ .Values.erida.image.repository }}:{{ .Values.erida.image.tag }}
+          imagePullPolicy: {{ .Values.erida.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.erida.service.port }}
+              protocol: TCP
+          env:
+            {{- range $key, $value := .Values.erida.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+      restartPolicy: {{ .Values.erida.restartPolicy }}
